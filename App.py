@@ -1,4 +1,4 @@
-import streamlit as st
+ilimport streamlit as st
 import pandas as pd
 import numpy as np
 import requests
@@ -459,5 +459,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-Response
-Created file /home/user/app_clean.py (18090 characters)
