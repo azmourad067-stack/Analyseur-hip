@@ -1,22 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-...
-            json_data = df_ranked.to_json(orient='records', indent=2)
-            st.download_button("📋 JSON", json_data, f"pronostic_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
-
-if __name__ == "__main__":
-    main()
-Tool Call
-Function Name:
-Write
-Arguments:
-file_path:
-/home/user/app_clean.py
-content:
-import streamlit as st
-import pandas as pd
-import numpy as np
 import requests
 from bs4 import BeautifulSoup
 import re
