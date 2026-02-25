@@ -1,8 +1,7 @@
 streamlit
+easyocr
 pandas
 numpy
-scikit-learn
-requests
-beautifulsoup4
-plotly
-lxml
+Pillow
+opencv-python-headless
+matplotlib
