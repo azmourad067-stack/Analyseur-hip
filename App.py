@@ -110,7 +110,6 @@ def detect_table_structure(text_boxes, headers_keywords):
     df = pd.DataFrame(data_rows)
     if not df.empty:
         # Réordonner selon l'ordre des colonnes de l'en-tête
-        # Ne garder que les colonnes présentes dans l'en-tête
         cols_present = [c for c in columns if c in df.columns]
         df = df[cols_present]
     return df
@@ -476,6 +475,11 @@ if st.button("🔍 Analyser la course", type="primary") and uploaded_files:
         if df_final.empty:
             st.error("Aucune donnée valide n'a pu être extraite. Vérifiez vos images.")
         else:
+            # Vérifier la présence de la colonne N° et la recréer si nécessaire
+            if 'N°' not in df_final.columns:
+                st.warning("Le numéro des chevaux (colonne N°) n'a pas été détecté. Utilisation de l'index comme numéro provisoire.")
+                df_final['N°'] = range(1, len(df_final) + 1)
+            
             # Scoring
             status_text.text("Calcul des scores...")
             df_final = classer_chevaux(df_final)
@@ -504,6 +508,7 @@ if st.session_state.data_loaded and st.session_state.df_final is not None:
     # Graphique des scores
     st.subheader("📈 Scores des chevaux")
     fig, ax = plt.subplots(figsize=(10, 6))
+    # Utiliser la colonne N° qui est maintenant garantie
     chevaux = df['Cheval'].astype(str) + " (N°" + df['N°'].astype(str) + ")"
     ax.barh(chevaux, df['score_normalise'])
     ax.set_xlabel("Score normalisé")
