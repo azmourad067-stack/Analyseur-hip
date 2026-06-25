@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 ═══════════════════════════════════════════════════════════════════════════════
  QuantTurf Pro v5.0.0 — "ADAPTATION 2026"
@@ -13,14 +15,7 @@
  ✅ Module de chargement des données historiques (placeholder pour API/scraping)
 ═══════════════════════════════════════════════════════════════════════════════
 """
-from historical_data import load_historical_data, compute_population_mean_from_historical
 
-# Au chargement, tu peux remplacer les moyennes fixes par les valeurs réelles :
-historical = load_historical_data()
-means = compute_population_mean_from_historical()
-CONFIG.POPULATION_MEAN_SCORE = means["mean_score"]
-CONFIG.POPULATION_MEAN_WIN = means["mean_win"]
-from __future__ import annotations
 import streamlit as st
 import numpy as np
 import pandas as pd
@@ -826,9 +821,7 @@ class RaceEngine:
                                        volatility=1 + volatility[i])
             roi = expected_roi(p_final[i], horse.get("odds", 2.0))
 
-            # Métrique « écart à la performance attendue »
-            # (utilisée en backtesting, mais calculée ici pour info)
-            gap = performance_gap(p_final[i], i+1, self.n)  # ordre provisoire
+            gap = performance_gap(p_final[i], i+1, self.n)
 
             results.append({
                 "rank": 0,
@@ -934,9 +927,8 @@ class Backtester:
             if stake <= 0:
                 continue
             total_stake += stake
-            # pari gagnant si le cheval est dans le top 5 (pour quinté désordre)
             if actual["winner"] in pred["top5"]:
-                odds = pred["odds_for_winner"]  # à fournir dans la prédiction
+                odds = pred["odds_for_winner"]
                 total_return += stake * odds
         if total_stake == 0:
             return 0.0
@@ -1012,12 +1004,11 @@ def init_session_state():
     if "prediction" not in st.session_state:
         st.session_state.prediction = None
     if "historical_data" not in st.session_state:
-        st.session_state.historical_data = []  # pour le backtest
+        st.session_state.historical_data = []
 
 
 def load_historical_data_sample() -> List[Dict]:
     """Placeholder : remplacer par votre vraie source de données (API, CSV, etc.)"""
-    # Exemple de structure minimale
     return [
         {
             "date": "2026-01-01",
@@ -1027,7 +1018,6 @@ def load_historical_data_sample() -> List[Dict]:
             "horses": [
                 {"number": 8, "position": 1, "music_score": 7.2},
                 {"number": 12, "position": 2, "music_score": 5.1},
-                # ... etc
             ]
         }
     ]
@@ -1085,7 +1075,6 @@ def main():
 
         st.markdown("---")
         if st.button("🔄 Recalculer les moyennes population (backtest)"):
-            # Simule le chargement des données historiques
             hist = load_historical_data_sample()
             if hist:
                 means = compute_population_mean(hist)
