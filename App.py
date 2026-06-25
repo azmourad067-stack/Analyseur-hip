@@ -13,7 +13,13 @@
  ✅ Module de chargement des données historiques (placeholder pour API/scraping)
 ═══════════════════════════════════════════════════════════════════════════════
 """
+from historical_data import load_historical_data, compute_population_mean_from_historical
 
+# Au chargement, tu peux remplacer les moyennes fixes par les valeurs réelles :
+historical = load_historical_data()
+means = compute_population_mean_from_historical()
+CONFIG.POPULATION_MEAN_SCORE = means["mean_score"]
+CONFIG.POPULATION_MEAN_WIN = means["mean_win"]
 from __future__ import annotations
 import streamlit as st
 import numpy as np
